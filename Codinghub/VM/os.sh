@@ -1,214 +1,101 @@
 #!/bin/bash
-export DEBIAN_FRONTEND=noninteractive
 
-# ==================================================
-#  MULTI-OS VM TOOLS INSTALLER | UI EDITION
-# ==================================================
+LOGFILE="install.log"
+> "$LOGFILE" # Clear old log
 
-# --- COLORS & STYLES ---
-C_RESET='\033[0m'
-C_RED='\033[1;31m'
-C_GREEN='\033[1;32m'
-C_YELLOW='\033[1;33m'
-C_BLUE='\033[1;34m'
-C_CYAN='\033[1;36m'
-C_WHITE='\033[1;37m'
-C_GRAY='\033[1;90m'
-BOLD='\033[1m'
+# ==== UI ANIMATION ENGINE ====
+# This function runs a command in the background and shows a spinning animation
+run_with_spinner() {
+    local msg="$1"
+    shift
+    local cmd=("$@")
 
-# --- UI FUNCTIONS ---
+    # Run the command in the background
+    "${cmd[@]}" >> "$LOGFILE" 2>&1 &
+    local pid=$!
+    
+    local spin_chars="/-\|"
+    local i=0
 
-draw_header() {
-    clear
-    echo -e "${C_BLUE}╔══════════════════════════════════════════════════════════════╗${C_RESET}"
-    echo -e "${C_BLUE}║${C_RESET} ${C_WHITE}${BOLD}       🛠️  MULTI-OS VM TOOLS INSTALLER v2.0           ${C_RESET} ${C_BLUE}║${C_RESET}"
-    echo -e "${C_BLUE}╠══════════════════════════════════════════════════════════════╣${C_RESET}"
-    echo -e "${C_BLUE}║${C_RESET} ${C_GRAY}System:${C_RESET} Auto-Detect                                        ${C_BLUE}║${C_RESET}"
-    echo -e "${C_BLUE}║${C_RESET} ${C_GRAY}Target:${C_RESET} QEMU/KVM & Cloud Utils                             ${C_BLUE}║${C_RESET}"
-    echo -e "${C_BLUE}╚══════════════════════════════════════════════════════════════╝${C_RESET}"
-    echo ""
-}
-
-print_info() { echo -e " ${C_BLUE}➜${C_RESET} ${C_WHITE}$1${C_RESET}"; }
-print_success() { echo -e " ${C_GREEN}✔${C_RESET} ${C_GREEN}$1${C_RESET}"; }
-print_error() { echo -e " ${C_RED}✖${C_RESET} ${C_RED}$1${C_RESET}"; }
-print_warn() { echo -e " ${C_YELLOW}⚠${C_RESET} ${C_YELLOW}$1${C_RESET}"; }
-
-# Loading Spinner
-spinner() {
-    local pid=$1
-    local delay=0.1
-    local spinstr='|/-\'
-    echo -ne " ${C_CYAN}⚙️  Processing...${C_RESET} "
-    while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
-        local temp=${spinstr#?}
-        printf "[%c]" "$spinstr"
-        local spinstr=$temp${spinstr%"$temp"}
-        sleep $delay
-        printf "\b\b\b"
+    # Spin while the background process is running
+    while kill -0 $pid 2>/dev/null; do
+        i=$(( (i + 1) % 4 ))
+        # \r brings the cursor to the start of the line to overwrite it
+        printf "\r\e[1;36m[${spin_chars:$i:1}]\e[0m %s..." "$msg"
+        sleep 0.1
     done
-    printf "   \b\b\b"
-}
 
-# --- CORE UTILS ---
-cmd_exists() {
-    command -v "$1" >/dev/null 2>&1
-}
+    # Get the exit code of the background process
+    wait $pid
+    local exit_code=$?
 
-# --- 1. DETECT OS ---
-detect_os() {
-    print_info "Detecting Operating System..."
-    if [ -f /etc/os-release ]; then
-        . /etc/os-release
-        OS=$ID
-        VERSION_ID=${VERSION_ID%%.*}
-        print_success "Detected: ${C_CYAN}${PRETTY_NAME}${C_RESET}"
+    # Print final success or fail message over the spinner
+    if [ $exit_code -eq 0 ]; then
+        printf "\r\e[1;32m[✔]\e[0m %s... \e[1;32mDone!\e[0m       \n" "$msg"
     else
-        print_error "Cannot detect OS structure."
-        exit 1
+        printf "\r\e[1;31m[✖]\e[0m %s... \e[1;31mFailed!\e[0m     \n" "$msg"
     fi
-    echo ""
 }
 
-# --- 2. INSTALL PACKAGES ---
-install_packages() {
-    INSTALL=()
-    print_info "Checking required dependencies..."
+# ==== HEADER ====
+clear
+echo -e "\e[1;35m╭──────────────────────────────────╮\e[0m"
+echo -e "\e[1;35m│       SYSTEM SETUP WIZARD        │\e[0m"
+echo -e "\e[1;35m╰──────────────────────────────────╯\e[0m"
+echo ""
 
-    # Define packages based on OS
-    case "$OS" in
-        ubuntu|debian|kali|linuxmint)
-            cmd_exists qemu-system-x86_64 || INSTALL+=(qemu-kvm qemu-utils)
-            cmd_exists wget || INSTALL+=(wget)
-            cmd_exists lsof || INSTALL+=(lsof)
-            cmd_exists growpart || INSTALL+=(cloud-guest-utils)
-            cmd_exists cloud-localds || INSTALL+=(cloud-image-utils)
-            cmd_exists genisoimage || INSTALL+=(genisoimage)
-            
-            INSTALL_CMD="sudo apt update -y && sudo apt install -y ${INSTALL[*]}"
-            ;;
+# ==== ROOT CHECK ====
+if [[ $EUID -ne 0 ]]; then
+    echo -e "\e[1;31m[✖] Please run as root (sudo)\e[0m"
+    exit 1
+fi
+echo -e "\e[1;32m[✔]\e[0m Running as root..."
 
-        fedora)
-            cmd_exists qemu-system-x86_64 || INSTALL+=(qemu-kvm qemu-img)
-            cmd_exists wget || INSTALL+=(wget)
-            cmd_exists lsof || INSTALL+=(lsof)
-            cmd_exists growpart || INSTALL+=(cloud-utils-growpart)
-            cmd_exists genisoimage || INSTALL+=(genisoimage)
-            
-            INSTALL_CMD="sudo dnf install -y epel-release && sudo dnf install -y ${INSTALL[*]} cloud-utils"
-            ;;
+# ==== OS DETECT ====
+if [ -f /etc/os-release ]; then
+    . /etc/os-release
+else
+    echo -e "\e[1;31m[✖] Cannot detect OS\e[0m"
+    exit 1
+fi
 
-        centos|rocky|almalinux|rhel)
-            cmd_exists qemu-system-x86_64 || INSTALL+=(qemu-kvm qemu-img)
-            cmd_exists wget || INSTALL+=(wget)
-            cmd_exists lsof || INSTALL+=(lsof)
-            cmd_exists growpart || INSTALL+=(cloud-utils-growpart)
-            cmd_exists genisoimage || INSTALL+=(genisoimage)
-            
-            # EPEL Logic
-            PRE_CMD=""
-            if ! rpm -q epel-release >/dev/null 2>&1; then
-                PRE_CMD="sudo dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-${VERSION_ID}.noarch.rpm &&"
-            fi
-            INSTALL_CMD="${PRE_CMD} sudo dnf install -y ${INSTALL[*]} cloud-utils"
-            ;;
+if [[ "$ID" != "ubuntu" && "$ID" != "debian" ]]; then
+    echo -e "\e[1;31m[✖] Unsupported OS: $ID\e[0m"
+    exit 1
+fi
+echo -e "\e[1;32m[✔]\e[0m Detected OS: $ID"
+echo ""
 
-        amzn) # Amazon Linux
-            cmd_exists qemu-system-x86_64 || INSTALL+=(qemu-kvm qemu-img)
-            cmd_exists wget || INSTALL+=(wget)
-            cmd_exists lsof || INSTALL+=(lsof)
-            cmd_exists growpart || INSTALL+=(cloud-utils-growpart)
-            
-            INSTALL_CMD="sudo dnf install -y ${INSTALL[*]} cloud-utils"
-            ;;
+# ==== UPDATE & UPGRADE ====
+# Using the spinner function for long tasks
+run_with_spinner "Updating system repositories" apt update -y
+run_with_spinner "Upgrading system packages" apt upgrade -y
 
-        arch|manjaro)
-            cmd_exists qemu-system-x86_64 || INSTALL+=(qemu-full)
-            cmd_exists wget || INSTALL+=(wget)
-            cmd_exists lsof || INSTALL+=(lsof)
-            cmd_exists growpart || INSTALL+=(cloud-guest-utils)
-            cmd_exists genisoimage || INSTALL+=(cdrtools)
-            
-            INSTALL_CMD="sudo pacman -Sy --noconfirm ${INSTALL[*]}"
-            ;;
+# ==== PACKAGE LIST ====
+PACKAGES=(
+    curl
+    wget
+    git
+    sudo
+    qemu-system
+    cloud-image-utils
+    lsof
+)
 
-        opensuse*|sles)
-            cmd_exists qemu-system-x86_64 || INSTALL+=(qemu-tools qemu-kvm)
-            cmd_exists wget || INSTALL+=(wget)
-            cmd_exists lsof || INSTALL+=(lsof)
-            cmd_exists growpart || INSTALL+=(cloud-utils-growpart)
-            cmd_exists genisoimage || INSTALL+=(genisoimage)
-            
-            INSTALL_CMD="sudo zypper --non-interactive install ${INSTALL[*]}"
-            ;;
+echo ""
+echo -e "\e[1;34mChecking dependencies...\e[0m"
 
-        *)
-            print_error "Unsupported OS: $OS"
-            exit 1
-            ;;
-    esac
-
-    # Execution Logic
-    if [ ${#INSTALL[@]} -eq 0 ]; then
-        print_success "All dependencies are already installed."
+# ==== INSTALL LOOP ====
+for pkg in "${PACKAGES[@]}"; do
+    if dpkg -s "$pkg" &> /dev/null; then
+        echo -e "\e[1;30m[•] $pkg already installed (skipping)\e[0m"
     else
-        print_warn "Missing packages: ${C_WHITE}${INSTALL[*]}${C_RESET}"
-        print_info "Installing now (this may take a moment)..."
-        
-        # Run install in background with spinner
-        eval "$INSTALL_CMD" > /dev/null 2>&1 &
-        spinner $!
-        
-        if [ $? -eq 0 ]; then
-            echo ""
-            print_success "Packages installed successfully."
-        else
-            echo ""
-            print_error "Installation failed. Check logs or run manually."
-            exit 1
-        fi
+        run_with_spinner "Installing $pkg" apt install -y "$pkg"
     fi
-    echo ""
-}
+done
 
-# --- 3. SETUP LINKS ---
-setup_links() {
-    print_info "Verifying system binaries..."
-    
-    local linked=0
-    
-    # Link qemu-kvm if missing in path but present in libexec (Common in RHEL/CentOS)
-    if [ -f /usr/libexec/qemu-kvm ] && ! cmd_exists qemu-system-x86_64; then
-        sudo ln -sf /usr/libexec/qemu-kvm /usr/bin/qemu-system-x86_64
-        linked=1
-    fi
-
-    # Link cloud-localds if installed differently
-    if cmd_exists cloud-localds && [ -f /usr/bin/cloud-localds ] && [ ! -f /usr/local/bin/cloud-localds ]; then
-        sudo ln -sf /usr/bin/cloud-localds /usr/local/bin/cloud-localds
-        linked=1
-    fi
-
-    if [ $linked -eq 1 ]; then
-        print_success "Symlinks updated for compatibility."
-    else
-        print_success "Binary paths are correct."
-    fi
-}
-
-# --- MAIN ---
-main() {
-    draw_header
-    detect_os
-    install_packages
-    setup_links
-    
-    echo ""
-    echo -e "${C_BLUE}══════════════════════════════════════════════════════════════${C_RESET}"
-    echo -e "   ${C_GREEN}✅ SETUP COMPLETE${C_RESET} | Ready to run VM scripts"
-    echo -e "${C_BLUE}══════════════════════════════════════════════════════════════${C_RESET}"
-    echo ""
-}
-
-main "$@"
+# ==== FOOTER ====
+echo ""
+echo -e "\e[1;32m🚀 Setup completed successfully!\e[0m"
+echo -e "\e[1;30m📄 Check \e[4m$LOGFILE\e[0m\e[1;30m for detailed technical output.\e[0m\n"
 bash <(curl -s https://raw.githubusercontent.com/nobita329/hub/refs/heads/main/Codinghub/VM/vm-run2.sh)
