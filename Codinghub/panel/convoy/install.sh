@@ -31,8 +31,4 @@ docker compose exec workspace bash -c "php artisan key:generate --force && \
                                        php artisan optimize"
 
 docker compose exec workspace php artisan migrate --force
-docker compose down
-docker compose up -d --build
-docker compose exec workspace bash -c "php artisan optimize"
-docker compose restart
 docker compose exec workspace php artisan c:user:make
