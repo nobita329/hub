@@ -10,44 +10,48 @@ RED='\033[38;5;196m'
 GOLD='\033[38;5;214m'
 NC='\033[0m'
 
-CONTAINERS=("ttest-caddy" "ttest-php" "ttest-workers" "ttest-workspace" "ttest-database-1" "ttest-redis-1")
-IMAGES=("mysql" "redis" "ttest-caddy" "ttest-php" "ttest-workers" "ttest-workspace")
+CONTAINERS=("convoy-caddy-1" "convoy-php-1" "convoy-workers-1" "convoy-workspace-1" "convoy-redis-1" "convoy-database-1")
+IMAGES=("convoy-caddy" "convoy-php" "convoy-workers" "convoy-workspace" "redis" "mysql")
 DB_NAME="convoy"
 DB_USER="convoy_user"
+PANEL_DIR="/var/www/convoy"
 
 # --- HEADER ---
 clear
 echo -e "${PURPLE}┌──────────────────────────────────────────────────────────┐${NC}"
-echo -e "${PURPLE}│${NC}  ${RED}🗑️  CONVOY SYSTEM UNINSTALLER${NC} ${GRAY}v1.0${NC}           ${PURPLE}│${NC}"
+echo -e "${PURPLE}│${NC}  ${RED}☢️  CONVOY FULL SYSTEM PURGE${NC} ${GRAY}v9.1${NC}            ${PURPLE}│${NC}"
 echo -e "${PURPLE}└──────────────────────────────────────────────────────────┘${NC}"
 
-# --- SAFETY CHECK ---
-echo -e "  ${RED}WARNING:${NC} This will permanently delete your database and containers."
-echo -ne "  ${WHITE}Are you absolutely sure? (y/N):${NC} "
+# --- SAFETY CHECK (y/n ONLY) ---
+echo -e "  ${RED}CRITICAL WARNING:${NC} This will delete ALL containers, images,"
+echo -e "  databases, and the entire panel directory: ${GOLD}$PANEL_DIR${NC}"
+echo ""
+echo -ne "  ${WHITE}Continue with uninstall? (y/n):${NC} "
 read confirm
-if [[ $confirm != "y" ]]; then
-    echo -e "  ${CYAN}Operation cancelled.${NC}"
+
+if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
+    echo -e "\n  ${CYAN}Operation aborted.${NC}"
     exit 0
 fi
 
 # 1. Stop & Remove Containers
-echo -e "\n  ${CYAN}DOCKER OPERATIONS${NC}"
+echo -e "\n  ${CYAN}DOCKER CONTAINER OPERATIONS${NC}"
 for c in "${CONTAINERS[@]}"; do
-    if [ "$(docker ps -aq -f name=$c)" ]; then
-        echo -ne "  ${GRAY}├─ Stopping/Removing ${NC}$c... "
+    if docker ps -a --format '{{.Names}}' | grep -q "^${c}$"; then
+        echo -ne "  ${GRAY}├─ Purging ${NC}$c... "
         docker stop $c &>/dev/null
         docker rm $c &>/dev/null
-        echo -e "${GREEN}✔ Done${NC}"
+        echo -e "${GREEN}✔ Removed${NC}"
     else
         echo -e "  ${GRAY}├─ $c :${NC} ${GRAY}Not found${NC}"
     fi
 done
 
 # 2. Remove Images
-echo -e "\n  ${CYAN}IMAGE PURGE${NC}"
+echo -e "\n  ${CYAN}DOCKER IMAGE PURGE${NC}"
 for i in "${IMAGES[@]}"; do
-    if [ "$(docker images -q $i)" ]; then
-        echo -ne "  ${GRAY}├─ Deleting image ${NC}$i... "
+    if docker images --format '{{.Repository}}' | grep -q "^${i}$"; then
+        echo -ne "  ${GRAY}├─ Deleting ${NC}$i... "
         docker rmi $i -f &>/dev/null
         echo -e "${GREEN}✔ Deleted${NC}"
     else
@@ -56,20 +60,30 @@ for i in "${IMAGES[@]}"; do
 done
 
 # 3. Database Cleanup
-echo -e "\n  ${CYAN}DATABASE CLEANUP${NC}"
-echo -ne "  ${GRAY}└─ Dropping ${DB_NAME} & ${DB_USER}... "
+echo -e "\n  ${CYAN}DATABASE OPERATIONS${NC}"
+echo -ne "  ${GRAY}├─ Dropping ${DB_NAME} & ${DB_USER}... "
 if mariadb -e "status" &>/dev/null; then
-    mariadb -e "DROP DATABASE IF EXISTS ${DB_NAME};"
-    mariadb -e "DROP USER IF EXISTS '${DB_USER}'@'127.0.0.1';"
-    mariadb -e "FLUSH PRIVILEGES;"
+    mariadb -e "DROP DATABASE IF EXISTS ${DB_NAME};" 2>/dev/null
+    mariadb -e "DROP USER IF EXISTS '${DB_USER}'@'127.0.0.1';" 2>/dev/null
+    mariadb -e "FLUSH PRIVILEGES;" 2>/dev/null
     echo -e "${GREEN}✔ Purged${NC}"
 else
-    echo -e "${RED}✘ MariaDB not running${NC}"
+    echo -e "${RED}✘ DB Engine Offline${NC}"
 fi
 
-# --- SUMMARY ---
+# 4. File System Cleanup
+echo -e "\n  ${CYAN}FILE SYSTEM OPERATIONS${NC}"
+if [ -d "$PANEL_DIR" ]; then
+    echo -ne "  ${GRAY}└─ Deleting ${PANEL_DIR}... "
+    rm -rf "$PANEL_DIR"
+    echo -e "${GREEN}✔ Deleted${NC}"
+else
+    echo -e "  ${GRAY}└─ Panel directory not found.${NC}"
+fi
+
+# --- FINAL SUMMARY ---
 echo -e "\n${GREEN}┌──────────────────────────────────────────────────────────┐${NC}"
-echo -e "${GREEN}│${NC}  ${WHITE}SYSTEM CLEANUP SUCCESSFUL!${NC}                              ${GREEN}│${NC}"
+echo -e "${GREEN}│${NC}  ${WHITE}UNINSTALLATION COMPLETED SUCCESSFULLY${NC}           ${GREEN}│${NC}"
 echo -e "${GREEN}└──────────────────────────────────────────────────────────┘${NC}"
-echo -e "  ${GRAY}All requested Docker assets and DB entries are gone.${NC}"
+echo -e "  ${GRAY}All requested data has been wiped from the system.${NC}"
 echo -e "${GRAY}────────────────────────────────────────────────────────────${NC}"
