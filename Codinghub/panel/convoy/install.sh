@@ -16,7 +16,7 @@ curl -Lo panel.tar.gz https://github.com/convoypanel/panel/releases/latest/downl
 tar -xzvf panel.tar.gz
 chmod -R o+w storage/* bootstrap/cache/
 cp .env.example .env
-sed -i "s|APP_URL=.*|APP_URL=https://${DOMAIN}|g" .env
+sed -i "s|APP_URL=.*|APP_URL=http://${DOMAIN}|g" .env
 sed -i "s|DB_DATABASE=.*|DB_DATABASE=${DB_NAME}|g" .env
 sed -i "s|DB_USERNAME=.*|DB_USERNAME=${DB_USER}|g" .env
 sed -i "s|DB_PASSWORD=.*|DB_PASSWORD=${DB_PASS}|g" .env
@@ -31,3 +31,8 @@ docker compose exec workspace bash -c "php artisan key:generate --force && \
                                        php artisan optimize"
 
 docker compose exec workspace php artisan migrate --force
+docker compose down
+docker compose up -d --build
+docker compose exec workspace bash -c "php artisan optimize"
+docker compose restart
+docker compose exec workspace php artisan c:user:make
