@@ -9,7 +9,11 @@ GREEN='\033[38;5;82m'
 RED='\033[38;5;196m'
 GOLD='\033[38;5;214m'
 NC='\033[0m'
-
+line(){ echo -e "${GRAY}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${RESET}"; }
+step(){ echo -e "${BLUE}➜ $1${RESET}"; }
+ok(){ echo -e "${GREEN}✔ $1${RESET}"; }
+warn(){ echo -e "${YELLOW}⚠ $1${RESET}"; }
+fail(){ echo -e "${RED}✖ $1${RESET}"; }
 # --- UI EFFECTS ---
 type_write() {
     local text="$1"
