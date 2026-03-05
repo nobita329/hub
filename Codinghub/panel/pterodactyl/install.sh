@@ -255,7 +255,6 @@ ok "NGINX configured."
 
 clear
 step "Create admin user"
-deploy_bar
 # --- Admin User ---
 cd /var/www/pterodactyl
 sed -i '/^APP_ENVIRONMENT_ONLY=/d' .env
