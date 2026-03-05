@@ -191,7 +191,7 @@ clear
 step "Create admin user"
 cd /var/www/paymenter
 php artisan app:init
-php artisan app:user:create
+php artisan p:user:make -n --email=admin@gmail.com --username=${USERNAME} --password=$PASSWORD --admin=1 --name-first=My --name-last=Admin
 clear
 # ---------------- DONE ----------------
 line
