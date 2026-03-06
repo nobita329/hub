@@ -71,7 +71,7 @@ source /etc/os-release
 
 if [[ "$ID" == "ubuntu" ]]; then
     echo "Ubuntu detected"
-    ash <(curl -s https://raw.githubusercontent.com/nobita329/hub/refs/heads/main/Codinghub/panel/ctrlpanel/Debian.sh)
+    ash <(curl -s https://raw.githubusercontent.com/nobita329/hub/refs/heads/main/Codinghub/panel/ctrlpanel/Ubuntu.sh)
 
 elif [[ "$ID" == "debian" ]]; then
     echo "Debian detected"
