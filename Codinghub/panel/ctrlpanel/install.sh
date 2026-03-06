@@ -81,6 +81,7 @@ else
     echo "Unsupported OS: $ID"
 fi
 
+systemctl enable --now mariadb
 
 # ===============================
 # Install Composer
@@ -88,15 +89,13 @@ fi
 
 print_status "Installing Composer..."
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
 # ===============================
 # Download CtrlPanel
 # ===============================
 
 print_status "Downloading CtrlPanel..."
 
-mkdir -p /var/www/ctrlpanel
-cd /var/www/ctrlpanel
+mkdir -p /var/www/ctrlpanel && cd /var/www/ctrlpanel
 git clone https://github.com/Ctrlpanel-gg/panel.git ./
 
 # ===============================
@@ -108,9 +107,6 @@ print_status "Configuring database..."
 DB_NAME=ctrlpanel
 DB_USER=ctrlpaneluser
 DB_PASS=ctrlpanel
-
-systemctl enable --now mariadb
-
 mariadb -e "CREATE DATABASE IF NOT EXISTS $DB_NAME;"
 mariadb -e "CREATE USER IF NOT EXISTS '$DB_USER'@'127.0.0.1' IDENTIFIED BY '$DB_PASS';"
 mariadb -e "GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'127.0.0.1';"
@@ -121,38 +117,24 @@ mariadb -e "FLUSH PRIVILEGES;"
 # ===============================
 
 print_status "Installing dependencies..."
-
 COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader
-
-cp .env.example .env
-
-php artisan key:generate
-
-php artisan migrate --force
-
-php artisan storage:link
 
 # ===============================
 # Permissions
 # ===============================
 
-WEB_USER=$(get_web_user)
-
-chown -R $WEB_USER:$WEB_USER /var/www/ctrlpanel
-
-chmod -R 755 storage bootstrap/cache
+php artisan storage:link
+chown -R www-data:www-data /var/www/ctrlpanel/
+chmod -R 755 storage/* bootstrap/cache/
 
 # ===============================
 # Cron Job
 # ===============================
 
 print_status "Adding cron..."
-
-CRON_JOB="* * * * * php /var/www/ctrlpanel/artisan schedule:run >> /dev/null 2>&1"
-
-(crontab -l 2>/dev/null; echo "$CRON_JOB") | crontab -
-
+apt install -y cron
 systemctl enable --now cron
+(crontab -l 2>/dev/null; echo "* * * * * php /var/www/ctrlpanel/artisan schedule:run >> /dev/null 2>&1") | crontab -
 
 # ===============================
 # Queue Worker
@@ -161,21 +143,27 @@ systemctl enable --now cron
 print_status "Creating queue worker..."
 
 cat >/etc/systemd/system/ctrlpanel.service <<EOF
+# Ctrlpanel Queue Worker File
+# ----------------------------------
+
 [Unit]
-Description=CtrlPanel Queue Worker
+Description=Ctrlpanel Queue Worker
 
 [Service]
-User=$WEB_USER
-Group=$WEB_USER
+# On some systems the user and group might be different.
+# Some systems use `apache` or `nginx` as the user and group.
+User=www-data
+Group=www-data
 Restart=always
 ExecStart=/usr/bin/php /var/www/ctrlpanel/artisan queue:work --sleep=3 --tries=3
+StartLimitBurst=0
 
 [Install]
 WantedBy=multi-user.target
 EOF
 
 systemctl daemon-reload
-systemctl enable --now ctrlpanel
+sudo systemctl enable --now ctrlpanel.service
 
 # ===============================
 # SSL Certificate
@@ -185,7 +173,6 @@ print_status "Generating SSL..."
 
 mkdir -p /etc/certs/ctrlpanel
 cd /etc/certs/ctrlpanel
-
 openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 \
 -subj "/C=NA/ST=NA/L=NA/O=NA/CN=$DOMAIN_NAME" \
 -keyout privkey.pem -out fullchain.pem
@@ -193,50 +180,79 @@ openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 \
 # ===============================
 # Nginx Config
 # ===============================
-
+rm /etc/nginx/sites-enabled/default
 print_status "Configuring Nginx..."
 
 cat >/etc/nginx/sites-available/ctrlpanel.conf <<EOF
 server {
-listen 80;
-server_name $DOMAIN_NAME;
-return 301 https://\$host\$request_uri;
+    # Redirect HTTP to HTTPS
+    listen 80;
+    server_name $DOMAIN_NAME;
+    return 301 https://\$server_name\$request_uri;
 }
 
 server {
+    # Main HTTPS server
+    listen 443 ssl http2;
+    server_name $DOMAIN_NAME;
 
-listen 443 ssl http2;
+    root /var/www/ctrlpanel/public;
+    index index.php;
 
-server_name $DOMAIN_NAME;
+    access_log /var/log/nginx/ctrlpanel.app-access.log;
+    error_log  /var/log/nginx/ctrlpanel.app-error.log error;
 
-root /var/www/ctrlpanel/public;
+    # Allow large upload sizes
+    client_max_body_size 100m;
+    client_body_timeout 120s;
 
-index index.php;
+    sendfile off;
 
-ssl_certificate /etc/certs/ctrlpanel/fullchain.pem;
-ssl_certificate_key /etc/certs/ctrlpanel/privkey.pem;
+    # SSL Configuration
+    ssl_certificate /etc/certs/ctrlpanel/fullchain.pem;
+    ssl_certificate_key /etc/certs/ctrlpanel/privkey.pem;
+    ssl_session_cache shared:SSL:10m;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384";
+    ssl_prefer_server_ciphers on;
 
-location / {
-try_files \$uri \$uri/ /index.php?\$query_string;
-}
+    # Security headers
+    add_header X-Content-Type-Options nosniff;
+    add_header X-XSS-Protection "1; mode=block";
+    add_header X-Robots-Tag none;
+    add_header Content-Security-Policy "frame-ancestors 'self'";
+    add_header X-Frame-Options DENY;
+    add_header Referrer-Policy same-origin;
 
-location ~ \.php\$ {
+    location / {
+        try_files \$uri \$uri/ /index.php?\$query_string;
+    }
 
-include fastcgi_params;
+    location ~ \.php\$ {
+        fastcgi_split_path_info ^(.+\.php)(/.+)\$;
+        fastcgi_pass unix:/run/php/php8.3-fpm.sock;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param PHP_VALUE "upload_max_filesize = 100M \n post_max_size=100M";
+        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+        fastcgi_param HTTP_PROXY "";
+        fastcgi_intercept_errors off;
+        fastcgi_buffer_size 16k;
+        fastcgi_buffers 4 16k;
+        fastcgi_connect_timeout 300;
+        fastcgi_send_timeout 300;
+        fastcgi_read_timeout 300;
+        include /etc/nginx/fastcgi_params;
+    }
 
-fastcgi_pass unix:/run/php/php8.3-fpm.sock;
-
-fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
-
-}
-
+    location ~ /\.ht {
+        deny all;
+    }
 }
 EOF
 
 ln -s /etc/nginx/sites-available/ctrlpanel.conf /etc/nginx/sites-enabled/
-
 nginx -t
-
 systemctl restart nginx
 
 # ===============================
