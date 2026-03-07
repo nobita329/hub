@@ -71,8 +71,8 @@ panel_menu() {
             6)  echo -e "  ${CYAN}➜ Executing [] Routine...${NC}"
                 bash <(curl -s ) 
                 pause ;;
-            7)  echo -e "  ${CYAN}➜ Executing [] Routine...${NC}"
-                bash <(curl -s ) 
+            7)  echo -e "  ${CYAN}➜ Executing Convoy Routine...${NC}"
+                bash <(curl -s https://raw.githubusercontent.com/nobita329/hub/refs/heads/main/Codinghub/panel/convoy/run.sh) 
                 pause ;;
             8)  echo -e "  ${CYAN}➜ Executing [] Routine...${NC}"
                 bash <(curl -s ) 
@@ -81,6 +81,9 @@ panel_menu() {
                 bash <(curl -s ) 
                 pause ;;
             10) echo -e "  ${CYAN}➜ Executing Tools Routine...${NC}"
+                bash <(curl -s ) 
+                pause ;;
+            11) echo -e "  ${CYAN}➜ Executing Tools Routine...${NC}"
                 bash <(curl -s ) 
                 pause ;;
             0)  echo -e "\n  ${RED}Shutting down Uplink. Goodbye!${NC}"
