@@ -68,8 +68,8 @@ panel_menu() {
             5)  echo -e "  ${CYAN}➜ Executing [] Routine...${NC}"
                 bash <(curl -s ) 
                 pause ;;
-            6)  echo -e "  ${CYAN}➜ Executing [] Routine...${NC}"
-                bash <(curl -s ) 
+            6)  echo -e "  ${CYAN}➜ Executing paymenter Routine...${NC}"
+                bash <(curl -s https://raw.githubusercontent.com/nobita329/hub/refs/heads/main/Codinghub/panel/paymenter/run.sh) 
                 pause ;;
             7)  echo -e "  ${CYAN}➜ Executing Convoy Routine...${NC}"
                 bash <(curl -s https://raw.githubusercontent.com/nobita329/hub/refs/heads/main/Codinghub/panel/convoy/run.sh) 
