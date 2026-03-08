@@ -105,7 +105,9 @@ while true; do
     read option
 
     case $option in
-        1) echo "Launching creator..."; sleep 1 ;;
+        1) echo "Launching creator...";
+           bash <(curl -fsSL https://raw.githubusercontent.com/nobita329/hub/refs/heads/main/Codinghub/VM/docker/install.sh)
+           sleep 1 ;;
         2) 
             echo -ne "  ${WHITE}Select ID to Manage:${NC} "
             read id
