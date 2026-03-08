@@ -129,7 +129,6 @@ STOPSIGNAL SIGRTMIN+3
 
 CMD ["/lib/systemd/systemd"]
 EOF
-rm Dockerfile
 docker build -t $HOSTNAME .
 docker run -d \
 --name $HOSTNAME \
