@@ -105,8 +105,6 @@ done
 # --- RESOURCE CONFIGURATION ---
 echo -e "\n  ${CYAN}⚙️  RESOURCE CONFIGURATION${NC}"
 echo -ne "  ${GRAY}├─ Hostname   :${NC} "; read HOSTNAME
-echo -ne "  ${GRAY}├─  user     :${NC} "; read USER
-echo -ne "  ${GRAY}├─ User pass  :${NC} "; read USERPASS
 echo -ne "  ${GRAY}├─ RAM        :${NC} "; read RAM
 echo -ne "  ${GRAY}└─ CPU        :${NC} "; read CPU
 
