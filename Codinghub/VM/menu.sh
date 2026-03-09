@@ -139,7 +139,7 @@ EOF
         3) bash <(curl -s https://raw.githubusercontent.com/nobita329/hub/refs/heads/main/Codinghub/VM/os.sh)
            bash <(curl -s https://raw.githubusercontent.com/nobita329/hub/refs/heads/main/Codinghub/VM/vm-run2.sh); pause ;;
         5) bash <(curl -s https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/vps/lxc.sh); pause ;;
-        6) bash <(curl -s https://raw.githubusercontent.com/nobita329/ptero/refs/heads/main/ptero/vps/Docker.sh); pause ;;
+        6) bash <(curl -s https://raw.githubusercontent.com/nobita329/hub/refs/heads/main/Codinghub/VM/docker/manage.sh); pause ;;
         0) echo -e "\n  ${B_RED}DISCONNECTED.${NC} Goodbye, Nobita."; exit 0 ;;
         *) echo -e "  ${B_RED}Error: Command Invalid.${NC}"; sleep 0.7 ;;
     esac
