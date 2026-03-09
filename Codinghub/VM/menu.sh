@@ -84,7 +84,7 @@ render_ui() {
     echo -e "  ${B_CYAN}  VIRTUALIZATION & NODES${NC}"
     echo -e "  ${G}├─ ${W}[1]${NC} RDX/IDX             ${G}├─ ${W}[4]${NC} soon"
     echo -e "  ${G}├─ ${W}[2]${NC} VM-1 (KVM Mode)     ${G}├─ ${W}[5]${NC} LXC/LXD Deploy"
-    echo -e "  ${G}└─ ${W}[3]${NC} VM-2 (No-KVM)       ${G}└─ ${W}[6]${NC} Docker/MINIVM"
+    echo -e "  ${G}└─ ${W}[3]${NC} VM-2 (No-KVM)       ${G}└─ ${W}[6]${NC} Docker Deploy"
     echo -e ""
     
     echo -e "  ${B_PURPLE}  SESSION CONTROL${NC}"
