@@ -157,6 +157,9 @@ docker run -d \
 -v /sys/fs/cgroup:/sys/fs/cgroup:rw \
 -p $PORT:22 \
 $HOSTNAME
+
+rm Dockerfile
+
 # Logging deployment
 echo "$HOSTNAME $PORT $ROOTPASS $USER" >> deployments.log
 
