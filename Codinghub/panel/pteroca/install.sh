@@ -35,6 +35,7 @@ mariadb -e "CREATE USER '${DB_USER}'@'127.0.0.1' IDENTIFIED BY '${DB_PASS}';"
 mariadb -e "CREATE DATABASE ${DB_NAME};"
 mariadb -e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'127.0.0.1' WITH GRANT OPTION;"
 mariadb -e "FLUSH PRIVILEGES;"
+cd /var/www/pteroca
 cat /var/www/pteroca/.env | grep DATABASE_URL="mysql://pterocauser:1234@127.0.0.1:3306/pteroca"
 
 
