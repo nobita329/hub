@@ -1,11 +1,12 @@
 #!/bin/bash
 
-read DOMAIN
-DOMAIN=${DOMAIN:-panel.example.com}
+
 # Stop script if error occurs
 set -e
 # Prevent interactive prompts
 export DEBIAN_FRONTEND=noninteractive
+DOMAIN=${DOMAIN:-panel.example.com}
+read DOMAIN
 echo "Updating system..."
 apt update -y && apt upgrade -y
 echo "Installing required packages..."
