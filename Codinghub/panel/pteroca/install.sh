@@ -1,5 +1,7 @@
 #!/bin/bash
 
+read DOMAIN
+DOMAIN=${DOMAIN:-panel.example.com}
 # Stop script if error occurs
 set -e
 # Prevent interactive prompts
@@ -37,8 +39,44 @@ mariadb -e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'127.0.0.1' WIT
 mariadb -e "FLUSH PRIVILEGES;"
 cd /var/www/pteroca
 cat /var/www/pteroca/.env | grep DATABASE_URL="mysql://pterocauser:1234@127.0.0.1:3306/pteroca"
+mkdir -p /etc/certs/pteroca
+cd /etc/certs/pteroca
+openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 \
+-subj "/C=NA/ST=NA/L=NA/O=NA/CN=Generic SSL Certificate" \
+-keyout privkey.pem -out fullchain.pem
+cat > /etc/nginx/sites-available/pteroca.conf <<EOF
+server {
+    listen 80;
+    server_name ${DOMAIN};
+    return 301 https://\$host\$request_uri;
+}
 
+server {
+    listen 443 ssl;
+    server_name ${DOMAIN};
 
+    ssl_certificate /etc/certs/pteroca/fullchain.pem;
+    ssl_certificate_key /etc/certs/pteroca/privkey.pem;
+
+    root /var/www/pteroca/public;
+    index index.php;
+
+    location / {
+        try_files \$uri \$uri/ /index.php?\$query_string;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php8.2-fpm.sock;
+    }
+}
+EOF
+ln -s /etc/nginx/sites-available/pterodactyl.conf /etc/nginx/sites-enabled/pterodactyl.conf || true
+nginx -t && systemctl restart nginx
+sudo chown -R www-data:www-data /var/www/pteroca
+sudo chmod -R 755 /var/www/pteroca
+cd /var/www/pteroca
+php bin/console pteroca:system:configure
 
 
 
