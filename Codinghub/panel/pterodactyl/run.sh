@@ -137,11 +137,11 @@ update_panel() {
     php artisan down
     cd /var/www/pterodactyl
     status_msg "INFO" "Downloading latest release..."
-    curl -Lo panel.tar.gz https://github.com/pterodactyl/panel/releases/latest/download/panel.tar.gz | tar -xzv
-    
+    curl -Lo panel.tar.gz https://github.com/pterodactyl/panel/releases/latest/download/panel.tar.gz
+    tar -xzvf panel.tar.gz
     status_msg "INFO" "Setting permissions..."
-    chmod -R 755 storage/* bootstrap/cache
-    
+    chmod -R 755 storage/* bootstrap/cache/
+
     status_msg "INFO" "Updating Composer dependencies..."
     COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader
     
