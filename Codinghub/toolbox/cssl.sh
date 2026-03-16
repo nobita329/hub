@@ -86,7 +86,7 @@ if [ "$SERVER" = "y" ]; then
     openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 \
 -subj "/C=NA/ST=NA/L=NA/O=NA/CN=Generic SSL Certificate" \
 -keyout privkey.pem -out fullchain.pem
-
+m /etc/nginx/sites-available/$NAME.conf
 tee /etc/nginx/sites-available/$NAME.conf > /dev/null <<EOF
 server {
     listen 80;
@@ -125,7 +125,7 @@ fi
 if [ "$SERVER" = "n" ]; then
 
     EMAIL="admin@$DOMAIN"
-
+rm /etc/nginx/sites-available/$NAME.conf
 tee /etc/nginx/sites-available/$DOMAIN.conf > /dev/null <<EOF
 server {
     listen 80;
