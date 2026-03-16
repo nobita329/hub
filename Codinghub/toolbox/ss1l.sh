@@ -49,7 +49,8 @@ DOMAIN=${DOMAIN:-panel.example.com}
 
 read -p "Enter Host [127.0.0.1:3000]: " HOST
 HOST=${HOST:-127.0.0.1:3000}
-
+read -p "Enter Domain [panel]: " NAME
+NAME=${NAME:-panel}
 echo ""
 read -p "Use Server [Local = y / Public = n] [y]: " SERVER
 SERVER=${SERVER:-y}
