@@ -126,6 +126,7 @@ server {
 EOF
 
     ln -sf /etc/nginx/sites-available/$NAME.conf /etc/nginx/sites-enabled/
+    sudo systemctl start nginx
     nginx -t && systemctl reload nginx
 
 fi
@@ -155,7 +156,7 @@ server {
 EOF
 
      ln -sf /etc/nginx/sites-available/$NAME.conf /etc/nginx/sites-enabled/
-
+     sudo systemctl start nginx
     nginx -t && systemctl reload nginx
 
     certbot --nginx -d $DOMAIN --non-interactive --agree-tos -m $EMAIL --redirect
