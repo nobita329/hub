@@ -10,7 +10,25 @@ PURPLE='\033[1;35m'
 CYAN='\033[1;36m'
 WHITE='\033[1;37m'
 NC='\033[0m' # No Color
+DIR="/etc/nginx/sites-available"
 
+show_sites() {
+
+echo ""
+echo "====== NGINX SSL SITES ======"
+
+i=1
+for f in $DIR/*.conf; do
+    [ -e "$f" ] || { echo "No sites found"; return; }
+
+    name=$(basename "$f")
+    echo "$i) $name"
+
+    arr[$i]=$f
+    ((i++))
+done
+
+}
 # --- Custom AUTO SSL Banner ---
 show_banner() {
     clear
@@ -43,6 +61,7 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 show_banner
+show_sites
 # inputs
 read -p "Enter Domain [panel.example.com]: " DOMAIN
 DOMAIN=${DOMAIN:-panel.example.com}
