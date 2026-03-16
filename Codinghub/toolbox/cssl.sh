@@ -87,12 +87,12 @@ if [ "$SERVER" = "y" ]; then
 -subj "/C=NA/ST=NA/L=NA/O=NA/CN=Generic SSL Certificate" \
 -keyout privkey.pem -out fullchain.pem
 
-    tee /etc/nginx/sites-available/$NAME.conf > /dev/null <<EOF
+tee /etc/nginx/sites-available/$NAME.conf > /dev/null <<EOF
 server {
     listen 80;
     server_name $DOMAIN;
 
-    return 301 https://$server_name$request_uri;
+    return 301 https://\$server_name\$request_uri;
 }
 
 server {
@@ -108,9 +108,9 @@ server {
         proxy_pass http://$HOST;
 
         proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
+        proxy_set_header Host \$host;
     }
 }
 EOF
