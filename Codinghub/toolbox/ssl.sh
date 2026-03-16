@@ -82,8 +82,8 @@ server {
     listen 443 ssl;
     server_name $DOMAIN;
 
-    ssl_certificate /home/YOURUSER/ssl/localhost.crt;
-    ssl_certificate_key /home/YOURUSER/ssl/localhost.key;
+    ssl_certificate /etc/certs/$NAME/fullchain.pem;
+    ssl_certificate_key /etc/certs/$NAME/privkey.pem;
 
     location / {
         proxy_pass http://$HOST;
