@@ -1,9 +1,4 @@
-Gemini said
-Done! Maine aapka custom "AUTO SSL" blocky ASCII art banner script mein set kar diya hai aur colors ko aur bhi zyada vibrant (bright) bana diya hai.
 
-Ab jab aap script run karenge, toh yeh heavy professional look degi.
-
-Bash
 #!/bin/bash
 
 # --- Color Palette ---
