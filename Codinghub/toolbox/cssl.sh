@@ -102,10 +102,12 @@ server {
     ssl_certificate /etc/certs/$NAME/fullchain.pem;
     ssl_certificate_key /etc/certs/$NAME/privkey.pem;
 
+    ssl_protocols TLSv1.2 TLSv1.3;
+
     location / {
         proxy_pass http://$HOST;
-        proxy_http_version 1.1;
 
+        proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
         proxy_set_header Host $host;
