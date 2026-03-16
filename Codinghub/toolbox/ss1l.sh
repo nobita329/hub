@@ -64,7 +64,8 @@ show_banner
 show_sites
 echo ""
 echo ""
-
+echo ""
+echo "---------------------------------"
 # inputs
 read -p "Enter Domain [panel.example.com]: " DOMAIN
 DOMAIN=${DOMAIN:-panel.example.com}
