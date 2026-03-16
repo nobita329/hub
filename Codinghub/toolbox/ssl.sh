@@ -73,16 +73,26 @@ if [ "$SERVER" = "y" ]; then
 
     tee /etc/nginx/sites-available/$DOMAIN.conf > /dev/null <<EOF
 server {
+    listen 80;
+    server_name $DOMAIN;
+
+    return 301 https://localhost$request_uri;
+}
+
+server {
     listen 443 ssl;
     server_name $DOMAIN;
 
-    ssl_certificate /etc/certs/$NAME/fullchain.pem;
-    ssl_certificate_key /etc/certs/$NAME/privkey.pem;
+    ssl_certificate /home/YOURUSER/ssl/localhost.crt;
+    ssl_certificate_key /home/YOURUSER/ssl/localhost.key;
 
     location / {
         proxy_pass http://$HOST;
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_http_version 1.1;
+
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
     }
 }
 EOF
@@ -106,8 +116,12 @@ server {
 
     location / {
         proxy_pass http://$HOST;
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_http_version 1.1;
+
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
     }
 }
 EOF
@@ -119,20 +133,27 @@ EOF
     certbot --nginx -d $DOMAIN --non-interactive --agree-tos -m $EMAIL --redirect
 
 fi
+clear
 
+# --- End of Script Section ---
 
+show_banner
+echo -e "${CYAN}======================================================${NC}"
+echo -e "${GREEN}                🚀 INSTALLATION COMPLETE               ${NC}"
+echo -e "${CYAN}======================================================${NC}"
 echo ""
-echo "================================="
-echo "          INSTALL COMPLETE       "
-echo "================================="
-echo "Domain : $DOMAIN"
-echo "Host   : $HOST"
-
+# Displaying Key Information in a Clean Layout
+echo -e "${WHITE}  ➤  Domain Name : ${YELLOW}$DOMAIN${NC}"
+echo -e "${WHITE}  ➤  Backend Host: ${YELLOW}$HOST${NC}"
+# Dynamic SSL Status Output
 if [ "$SERVER" = "y" ]; then
-echo "SSL    : Local Self-Signed"
+    echo -e "${WHITE}  ➤  SSL Status  : ${CYAN}Local Self-Signed${NC}"
 else
-echo "SSL    : Public Let's Encrypt"
+    echo -e "${WHITE}  ➤  SSL Status  : ${GREEN}Public Let's Encrypt (Active)${NC}"
 fi
-
 echo ""
-echo "Site Ready 🚀"
+echo -e "${CYAN}======================================================${NC}"
+echo -e "${PURPLE}       Your site is ready to use! Enjoy! 🔥${NC}"
+echo -e "${CYAN}======================================================${NC}"
+echo ""
+
