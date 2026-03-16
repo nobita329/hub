@@ -66,10 +66,9 @@ if [ "$SERVER" = "y" ]; then
 
     mkdir -p /etc/certs/$NAME
     cd /etc/certs/$NAME || exit
-
     openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 \
-    -subj "/C=NA/ST=NA/L=NA/O=NA/CN=$DOMAIN" \
-    -keyout privkey.pem -out fullchain.pem
+-subj "/C=NA/ST=NA/L=NA/O=NA/CN=Generic SSL Certificate" \
+-keyout privkey.pem -out fullchain.pem
 
     tee /etc/nginx/sites-available/$DOMAIN.conf > /dev/null <<EOF
 server {
