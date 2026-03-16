@@ -126,7 +126,7 @@ if [ "$SERVER" = "n" ]; then
 
     EMAIL="admin@$DOMAIN"
 
-    tee /etc/nginx/sites-available/$DOMAIN.conf > /dev/null <<EOF
+tee /etc/nginx/sites-available/$DOMAIN.conf > /dev/null <<EOF
 server {
     listen 80;
     server_name $DOMAIN;
@@ -135,10 +135,10 @@ server {
         proxy_pass http://$HOST;
         proxy_http_version 1.1;
 
-        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
+        proxy_set_header Host \$host;
+        proxy_cache_bypass \$http_upgrade;
     }
 }
 EOF
