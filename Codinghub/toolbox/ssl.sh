@@ -75,7 +75,7 @@ server {
     listen 80;
     server_name $DOMAIN;
 
-    return 301 https://localhost$request_uri;
+    return 301 https://\$server_name\$request_uri;
 }
 
 server {
