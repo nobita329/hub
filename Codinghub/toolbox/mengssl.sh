@@ -96,6 +96,7 @@ esac
 show_sites
 read -p "Select site number to delete: " num
 rm -f ${arr[$num]}
+rm -f /etc/nginx/sites-available/${arr[$num]}
 rm -f /etc/nginx/sites-enabled/${arr[$num]}
 echo -e "${R}Site deleted${NC}"
 sleep 1
