@@ -70,8 +70,10 @@ echo "---------------------------------"
 read -p "Enter Domain [panel.example.com]: " DOMAIN
 DOMAIN=${DOMAIN:-panel.example.com}
 
-read -p "Enter Host [127.0.0.1:3000]: " HOST
-HOST=${HOST:-127.0.0.1:3000}
+read -p "Enter Host [127.0.0.1]: " HOST
+HOST=${HOST:-127.0.0.1}
+read -p "Enter Port [3000]: " PORT
+PORT=${PORT:-3000}
 read -p "Enter NAME [panel]: " NAME
 NAME=${NAME:-panel}
 echo ""
@@ -105,7 +107,7 @@ server {
     ssl_protocols TLSv1.2 TLSv1.3;
 
     location / {
-        proxy_pass http://$HOST;
+        proxy_pass http://$HOST:$PORT;
 
         proxy_http_version 1.1;
         proxy_set_header Upgrade \$http_upgrade;
@@ -132,7 +134,7 @@ server {
     server_name $DOMAIN;
 
     location / {
-        proxy_pass http://$HOST;
+        proxy_pass http://$HOST:$PORT;
         proxy_http_version 1.1;
 
         proxy_set_header Upgrade \$http_upgrade;
