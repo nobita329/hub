@@ -142,7 +142,7 @@ server {
 }
 EOF
 
-    ln -sf /etc/nginx/sites-available/$DOMAIN.conf /etc/nginx/sites-enabled/
+     ln -sf /etc/nginx/sites-available/$NAME.conf /etc/nginx/sites-enabled/
 
     nginx -t && systemctl reload nginx
 
