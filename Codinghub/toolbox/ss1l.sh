@@ -66,7 +66,7 @@ if [ "$SERVER" = "y" ]; then
 -subj "/C=NA/ST=NA/L=NA/O=NA/CN=Generic SSL Certificate" \
 -keyout privkey.pem -out fullchain.pem
 
-    tee /etc/nginx/sites-available/$DOMAIN.conf > /dev/null <<EOF
+    tee /etc/nginx/sites-available/$NAME.conf > /dev/null <<EOF
 server {
     listen 80;
     server_name $DOMAIN;
@@ -92,7 +92,7 @@ server {
 }
 EOF
 
-    ln -sf /etc/nginx/sites-available/$DOMAIN.conf /etc/nginx/sites-enabled/
+    ln -sf /etc/nginx/sites-available/$NAME.conf /etc/nginx/sites-enabled/
 
     nginx -t && systemctl reload nginx
 
