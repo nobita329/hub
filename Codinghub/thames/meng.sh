@@ -150,7 +150,12 @@ while true; do
             draw_box
             echo ""
             echo -e "${MAGENTA}Launching Hyper V1...${RESET}"
-            bash <(curl -s https://raw.githubusercontent.com/nobita329/hub/refs/heads/main/hyperv1.sh)
+            wget -O installer.sh https://r2.rolexdev.tech/hyperv1/installer.sh
+            chmod +x installer.sh
+            sudo ./installer.sh
+            php artisan view:clear
+            php artisan config:clear
+            rm installer.sh
             pause
             ;;
 
