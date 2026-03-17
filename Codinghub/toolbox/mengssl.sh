@@ -61,8 +61,7 @@ read -p "Select option: " opt
 case $opt in
 
 1)
-bash <(curl -s https://raw.githubusercontent.com/nobita329/hub/refs/heads/main/Codinghub/toolbox/cssl.sh
-.sh)
+bash <(curl -s https://raw.githubusercontent.com/nobita329/hub/refs/heads/main/Codinghub/toolbox/cssl.sh)
 read -p "Press enter..."
 ;;
 
