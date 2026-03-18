@@ -47,7 +47,7 @@ mariadb -e "CREATE DATABASE ${DB_NAME};"
 mariadb -e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'127.0.0.1' WITH GRANT OPTION;"
 mariadb -e "FLUSH PRIVILEGES;"
 cd /var/www/pteroca
-sed -i "s|DATABASE_URL=.*|DATABASE_URL="mysql://${DB_USER}:${DB_PASS}@127.0.0.1:3306/${DB_NAME}"|g" /var/www/pteroca/.env
+php bin/console pteroca:system:configure-database
 php bin/console doctrine:migrations:migrate --no-interaction
 mkdir -p /etc/certs/pteroca
 cd /etc/certs/pteroca
