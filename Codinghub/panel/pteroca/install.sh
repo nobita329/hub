@@ -27,6 +27,7 @@ echo "Installing PHP, MariaDB, Nginx and dependencies..."
 apt -y install php8.2 php8.2-{cli,ctype,iconv,mysql,pdo,mbstring,tokenizer,bcmath,xml,intl,fpm,curl,zip} mariadb-server nginx tar unzip git
 echo "Installation completed successfully!"
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+rm -rf /var/www/pteroca
 mkdir -p /var/www/pteroca && cd /var/www/pteroca
 git clone https://github.com/PteroCA-Org/panel.git /var/www/pteroca
 COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader
