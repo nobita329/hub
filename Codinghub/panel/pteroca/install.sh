@@ -86,6 +86,7 @@ nginx -t && systemctl restart nginx
 sudo chown -R www-data:www-data /var/www/pteroca
 sudo chmod -R 755 /var/www/pteroca
 cd /var/www/pterodactyl
+COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader
 COMPOSER_ALLOW_SUPERUSER=1 composer require pteroca-com/pterodactyl-addon -n
 php artisan migrate --force
 chown -R www-data:www-data /var/www/pterodactyl
