@@ -17,8 +17,6 @@ echo "Installing required packages..."
 apt -y install software-properties-common curl apt-transport-https ca-certificates gnupg lsb-release
 echo "Adding PHP repository..."
 LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
-echo "Adding MariaDB repository..."
-curl -sS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | bash
 echo "Adding universe repository..."
 add-apt-repository -y universe
 echo "Updating repositories..."
