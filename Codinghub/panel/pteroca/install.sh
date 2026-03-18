@@ -89,10 +89,10 @@ cd /var/www/pterodactyl
 COMPOSER_ALLOW_SUPERUSER=1 composer require pteroca-com/pterodactyl-addon -n
 COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader
 php artisan migrate --force
-chown -R www-data:www-data /var/www/pterodactyl
 php artisan config:clear
 php artisan cache:clear
 php artisan queue:restart
+chown -R www-data:www-data /var/www/pterodactyl/*
 cd /var/www/pteroca
 php bin/console pteroca:system:configure
 
