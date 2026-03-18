@@ -30,7 +30,6 @@ curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
 mkdir -p /var/www/pteroca && cd /var/www/pteroca
 [ -d "/var/www/pteroca" ] && rm -rf /var/www/pteroca
 git clone https://github.com/PteroCA-Org/panel.git /var/www/pteroca
-cd /var/www/pteroca
 COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader
 chown -R www-data:www-data /var/www/pteroca/var/ /var/www/pteroca/public/uploads/
 chmod -R 775 /var/www/pteroca/var/ /var/www/pteroca/public/uploads/
