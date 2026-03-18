@@ -81,7 +81,7 @@ server {
     }
 }
 EOF
-ln -s /etc/nginx/sites-available/pterodactyl.conf /etc/nginx/sites-enabled/pterodactyl.conf || true
+ln -s /etc/nginx/sites-available/pteroca.conf /etc/nginx/sites-enabled/pteroca.conf || true
 nginx -t && systemctl restart nginx
 sudo chown -R www-data:www-data /var/www/pteroca
 sudo chmod -R 755 /var/www/pteroca
