@@ -31,6 +31,7 @@ rm -rf /var/www/pteroca
 mkdir -p /var/www/pteroca && cd /var/www/pteroca
 git clone https://github.com/PteroCA-Org/panel.git /var/www/pteroca
 COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader
+COMPOSER_ALLOW_SUPERUSER=1 composer require pteroca-com/pterodactyl-addon -n
 chown -R www-data:www-data /var/www/pteroca/var/ /var/www/pteroca/public/uploads/
 chmod -R 775 /var/www/pteroca/var/ /var/www/pteroca/public/uploads/
 apt install -y cron
