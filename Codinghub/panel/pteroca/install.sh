@@ -46,7 +46,8 @@ mariadb -e "CREATE DATABASE ${DB_NAME};"
 mariadb -e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'127.0.0.1' WITH GRANT OPTION;"
 mariadb -e "FLUSH PRIVILEGES;"
 cd /var/www/pteroca
-cat /var/www/pteroca/.env | grep DATABASE_URL="mysql://pterocauser:1234@127.0.0.1:3306/pteroca"
+sed -i "s|DATABASE_URL=.*|DATABASE_URL="mysql://${DB_USER}:${DB_PASS}@127.0.0.1:3306/${DB_NAME}"|g" /var/www/pteroca/.env
+php bin/console doctrine:migrations:migrate --no-interaction
 mkdir -p /etc/certs/pteroca
 cd /etc/certs/pteroca
 openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 \
