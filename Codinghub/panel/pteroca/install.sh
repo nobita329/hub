@@ -1,12 +1,16 @@
 #!/bin/bash
 
+GREEN="\e[32m"; BLUE="\e[34m"; RED="\e[31m"; RESET="\e[0m"
 
-# Stop script if error occurs
+set -e
+
+echo -e "${GREEN}=== 🚀 PteroCA Installer ===${RESET}"
+
+read -p "Enter domain [panel.example.com]: " DOMAIN
+DOMAIN=${DOMAIN:-panel.example.com}
 set -e
 # Prevent interactive prompts
 export DEBIAN_FRONTEND=noninteractive
-DOMAIN=${DOMAIN:-panel.example.com}
-read DOMAIN
 echo "Updating system..."
 apt update -y && apt upgrade -y
 echo "Installing required packages..."
@@ -24,7 +28,9 @@ apt -y install php8.2 php8.2-{cli,ctype,iconv,mysql,pdo,mbstring,tokenizer,bcmat
 echo "Installation completed successfully!"
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 mkdir -p /var/www/pteroca && cd /var/www/pteroca
-git clone https://github.com/PteroCA-Org/panel.git ./
+[ -d "/var/www/pteroca" ] && rm -rf /var/www/pteroca
+git clone https://github.com/PteroCA-Org/panel.git /var/www/pteroca
+cd /var/www/pteroca
 COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --optimize-autoloader
 chown -R www-data:www-data /var/www/pteroca/var/ /var/www/pteroca/public/uploads/
 chmod -R 775 /var/www/pteroca/var/ /var/www/pteroca/public/uploads/
