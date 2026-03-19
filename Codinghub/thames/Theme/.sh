@@ -77,15 +77,15 @@ show_menu() {
   echo -e "  ${BG}[ 5 ]${N} Amberabyss"
   echo -e "  ${BY}[ 6 ]${N} Catppuccindactyl"
   echo -e "  ${BM}[ 7 ]${N} Crimsonabyss"
-  echo -e "  ${BM}[ 8 ]${N}     hyperv1"
-  echo -e "  ${BG}[ 9 ]${N}    Install Blueprint 1"
-  echo -e "  ${BY}[ 10 ]${N}    Install Blueprint 2 (Fresh Rebuild)"
-  echo -e "  ${BM}[ 11 ]${N}     Auto Fix / Repair"
-  echo -e "  ${BM}[ 12 ]${N}     hyperv1"
-  echo -e "  ${BG}[ 13 ]${N}    Install Blueprint 1"
-  echo -e "  ${BY}[ 14 ]${N}    Install Blueprint 2 (Fresh Rebuild)"
-  echo -e "  ${BM}[ 15 ]${N}     Auto Fix / Repair"
-  echo -e "  ${BM}[ 16 ]${N}     hyperv1"
+  echo -e "  ${BM}[ 8 ]${N} Emeraldabyss"
+  echo -e "  ${BG}[ 9 ]${N} Refreshtheme"
+  echo -e "  ${BY}[ 10 ]${N} slice"
+  echo -e "  ${BM}[ 11 ]${N} Soon"
+  echo -e "  ${BM}[ 12 ]${N} Soon"
+  echo -e "  ${BG}[ 13 ]${N} Soon"
+  echo -e "  ${BY}[ 14 ]${N} Soon"
+  echo -e "  ${BM}[ 15 ]${N} Soon"
+  echo -e "  ${BM}[ 16 ]${N} Soon"
   echo -e ""
   echo -e "  ${BR}[ 0 ]${N}  ❌  Exit Panel"
   
@@ -322,7 +322,7 @@ while true; do
         read choice
         case $choice in
             1)
-                NAME=""
+                NAME="emeraldabyss.blueprint"
                 echo -e "\n${G}Installing $NAME...${N}"
                 cd /var/www/pterodactyl || exit
                 wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
@@ -330,7 +330,7 @@ while true; do
                 rm -f "$NAME"
                 ;;
             2)
-                NAME=""
+                NAME="emeraldabyss.blueprint"
                 echo -e "\n${R}Uninstalling $NAME...${N}"
                 cd /var/www/pterodactyl || exit
                 yes | blueprint -r "$NAME"
@@ -352,7 +352,7 @@ while true; do
         read choice
         case $choice in
             1)
-                NAME=""
+                NAME="refreshtheme.blueprint"
                 echo -e "\n${G}Installing $NAME...${N}"
                 cd /var/www/pterodactyl || exit
                 wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
@@ -360,7 +360,7 @@ while true; do
                 rm -f "$NAME"
                 ;;
             2)
-                NAME=""
+                NAME="refreshtheme.blueprint"
                 echo -e "\n${R}Uninstalling $NAME...${N}"
                 cd /var/www/pterodactyl || exit
                 yes | blueprint -r "$NAME"
@@ -382,7 +382,7 @@ while true; do
         read choice
         case $choice in
             1)
-                NAME=""
+                NAME="slice.blueprint"
                 echo -e "\n${G}Installing $NAME...${N}"
                 cd /var/www/pterodactyl || exit
                 wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
@@ -390,7 +390,7 @@ while true; do
                 rm -f "$NAME"
                 ;;
             2)
-                NAME=""
+                NAME="slice.blueprint"
                 echo -e "\n${R}Uninstalling $NAME...${N}"
                 cd /var/www/pterodactyl || exit
                 yes | blueprint -r "$NAME"
