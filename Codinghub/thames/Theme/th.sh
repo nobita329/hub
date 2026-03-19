@@ -42,7 +42,7 @@ header() {
   echo " ║                                                          ║"
   printf " ║${BW}%-58s${BC}║\n" "$(print_center "⚡ Theme CONTROL HUB ⚡")"
   echo " ║                                                          ║"
-  printf " ║${B}%-58s${BC}║\n" "$(print_center "Minimal • Clean • High Performance") mode by Nobita.dev"
+  printf " ║${B}%-58s${BC}║\n" "$(print_center "Mode by Nobita.dev")"
   echo " ║                                                          ║"
   echo " ╚══════════════════════════════════════════════════════════╝"
   echo -e "${N}"
