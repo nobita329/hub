@@ -71,7 +71,7 @@ show_menu() {
   echo -e "${BW} SELECT AN OPTION:${N}\n"
 
   echo -e "  ${BG}[ 1 ]${N} Nebula"
-  echo -e "  ${BY}[ 2 ]${N}  Install Blueprint 2 (Fresh Rebuild)"
+  echo -e "  ${BY}[ 2 ]${N} Euphoria"
   echo -e "  ${BM}[ 3 ]${N}  Auto Fix / Repair"
   echo -e "  ${BM}[ 4 ]${N}  hyperv1"
   echo -e "  ${BG}[ 5 ]${N}    Install Blueprint 1"
@@ -112,7 +112,7 @@ while true; do
         read choice
         case $choice in
             1)
-                NAME=""
+                NAME="nebula.blueprint"
                 echo -e "\n${G}Installing $NAME...${N}"
                 cd /var/www/pterodactyl || exit
                 wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
@@ -120,7 +120,7 @@ while true; do
                 rm -f "$NAME"
                 ;;
             2)
-                NAME=""
+                NAME="nebula.blueprint"
                 echo -e "\n${R}Uninstalling $NAME...${N}"
                 cd /var/www/pterodactyl || exit
                 yes | blueprint -r "$NAME"
@@ -142,7 +142,7 @@ while true; do
         read choice
         case $choice in
             1)
-                NAME=""
+                NAME="euphoriatheme.blueprint"
                 echo -e "\n${G}Installing $NAME...${N}"
                 cd /var/www/pterodactyl || exit
                 wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
@@ -150,7 +150,7 @@ while true; do
                 rm -f "$NAME"
                 ;;
             2)
-                NAME=""
+                NAME="euphoriatheme.blueprint"
                 echo -e "\n${R}Uninstalling $NAME...${N}"
                 cd /var/www/pterodactyl || exit
                 yes | blueprint -r "$NAME"
