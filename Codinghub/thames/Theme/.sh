@@ -63,9 +63,11 @@ pause() {
 # 📋 ACTIONS
 # ==========================================
 CD='cd /var/www/pterodactyl'
-RE='yes | blueprint -r'
-IN='yes | blueprint -i'
-
+RE='yes | blueprint -r '
+IN='yes | blueprint -i '
+D='wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/'
+RF='rm -f ' 
+# NAME="" $CD && $D$NAME && $IN$NAME && $RF$NAME
 # ==========================================
 # 🖥️ MAIN MENU
 # ==========================================
@@ -105,7 +107,7 @@ while true; do
     1)
         clear
         echo -e "\n${C} ──────────────────────────────────────────────────────────${N}"
-        echo -e " ${BW} SELECT ACTION:${N}\n"
+        echo -e " ${BW} SELECT ACTION Nebula :${N}\n"
 
         echo -e "  ${BG}[ 1 ]${N} Install"
         echo -e "  ${BR}[ 2 ]${N} Uninstall"
@@ -114,9 +116,9 @@ while true; do
         echo -e "\n${C} ──────────────────────────────────────────────────────────${N}"
         read choice
         case $choice in
-            1) echo "Installing Option 1..." ;;
-            2) echo "Uninstalling Option 1..." ;;
-            0) echo "Exiting... Option 1..." continue ;;
+            1) echo "Installing Nebula..." NAME="nebula.blueprint" $CD && $D$NAME && $IN$NAME && $RF$NAME ;;
+            2) echo "Uninstalling Nebula..." NAME="nebula.blueprint" $CD && $RE$RE ;;
+            0) echo "Exiting... Nebula..." continue ;;
             *) echo -e "${R}Invalid action${N}" ;;
         esac
         ;;
