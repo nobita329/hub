@@ -132,7 +132,7 @@ while true; do
             draw_box
             echo ""
             echo -e "${CYAN}Launching Theme...${RESET}"
-            bash <(curl -s https://raw.githubusercontent.com/nobita329/hub/refs/heads/main/theme.sh)
+            bash <(curl -s github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/th.sh)
             pause
             ;;
 
