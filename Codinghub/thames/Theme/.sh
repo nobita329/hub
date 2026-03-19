@@ -72,11 +72,11 @@ show_menu() {
 
   echo -e "  ${BG}[ 1 ]${N} Nebula"
   echo -e "  ${BY}[ 2 ]${N} Euphoria"
-  echo -e "  ${BM}[ 3 ]${N}  Auto Fix / Repair"
-  echo -e "  ${BM}[ 4 ]${N}  hyperv1"
-  echo -e "  ${BG}[ 5 ]${N}    Install Blueprint 1"
-  echo -e "  ${BY}[ 6 ]${N}    Install Blueprint 2 (Fresh Rebuild)"
-  echo -e "  ${BM}[ 7 ]${N}     Auto Fix / Repair"
+  echo -e "  ${BM}[ 3 ]${N} BetterAdmin"
+  echo -e "  ${BM}[ 4 ]${N} Abysspurple"
+  echo -e "  ${BG}[ 5 ]${N} Amberabyss"
+  echo -e "  ${BY}[ 6 ]${N} Catppuccindactyl"
+  echo -e "  ${BM}[ 7 ]${N} Crimsonabyss"
   echo -e "  ${BM}[ 8 ]${N}     hyperv1"
   echo -e "  ${BG}[ 9 ]${N}    Install Blueprint 1"
   echo -e "  ${BY}[ 10 ]${N}    Install Blueprint 2 (Fresh Rebuild)"
@@ -172,7 +172,7 @@ while true; do
         read choice
         case $choice in
             1)
-                NAME=""
+                NAME="BetterAdmin.blueprint"
                 echo -e "\n${G}Installing $NAME...${N}"
                 cd /var/www/pterodactyl || exit
                 wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
@@ -180,7 +180,7 @@ while true; do
                 rm -f "$NAME"
                 ;;
             2)
-                NAME=""
+                NAME="BetterAdmin.blueprint"
                 echo -e "\n${R}Uninstalling $NAME...${N}"
                 cd /var/www/pterodactyl || exit
                 yes | blueprint -r "$NAME"
@@ -202,7 +202,7 @@ while true; do
         read choice
         case $choice in
             1)
-                NAME=""
+                NAME="abysspurple.blueprint"
                 echo -e "\n${G}Installing $NAME...${N}"
                 cd /var/www/pterodactyl || exit
                 wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
@@ -210,7 +210,7 @@ while true; do
                 rm -f "$NAME"
                 ;;
             2)
-                NAME=""
+                NAME="abysspurple.blueprint"
                 echo -e "\n${R}Uninstalling $NAME...${N}"
                 cd /var/www/pterodactyl || exit
                 yes | blueprint -r "$NAME"
@@ -232,7 +232,7 @@ while true; do
         read choice
         case $choice in
             1)
-                NAME=""
+                NAME="amberabyss.blueprint"
                 echo -e "\n${G}Installing $NAME...${N}"
                 cd /var/www/pterodactyl || exit
                 wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
@@ -240,7 +240,7 @@ while true; do
                 rm -f "$NAME"
                 ;;
             2)
-                NAME=""
+                NAME="amberabyss.blueprint"
                 echo -e "\n${R}Uninstalling $NAME...${N}"
                 cd /var/www/pterodactyl || exit
                 yes | blueprint -r "$NAME"
@@ -262,7 +262,7 @@ while true; do
         read choice
         case $choice in
             1)
-                NAME=""
+                NAME="catppuccindactyl.blueprint"
                 echo -e "\n${G}Installing $NAME...${N}"
                 cd /var/www/pterodactyl || exit
                 wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
@@ -270,7 +270,7 @@ while true; do
                 rm -f "$NAME"
                 ;;
             2)
-                NAME=""
+                NAME="catppuccindactyl.blueprint"
                 echo -e "\n${R}Uninstalling $NAME...${N}"
                 cd /var/www/pterodactyl || exit
                 yes | blueprint -r "$NAME"
@@ -292,7 +292,7 @@ while true; do
         read choice
         case $choice in
             1)
-                NAME=""
+                NAME="crimsonabyss.blueprint"
                 echo -e "\n${G}Installing $NAME...${N}"
                 cd /var/www/pterodactyl || exit
                 wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
@@ -300,7 +300,7 @@ while true; do
                 rm -f "$NAME"
                 ;;
             2)
-                NAME=""
+                NAME="crimsonabyss.blueprint"
                 echo -e "\n${R}Uninstalling $NAME...${N}"
                 cd /var/www/pterodactyl || exit
                 yes | blueprint -r "$NAME"
