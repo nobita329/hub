@@ -62,9 +62,10 @@ pause() {
 # ==========================================
 # 📋 ACTIONS
 # ==========================================
-CD=
-R=
-I=
+CD=cd /var/www/pterodactyl
+RE=yes | blueprint -r
+IN=yes | blueprint -i
+
 # ==========================================
 # 🖥️ MAIN MENU
 # ==========================================
@@ -72,7 +73,7 @@ show_menu() {
   header
   echo -e "${BW} SELECT AN OPTION:${N}\n"
 
-  echo -e "  ${BG}[ 1 ]${N}  Install Blueprint 1"
+  echo -e "  ${BG}[ 1 ]${N} Nebula"
   echo -e "  ${BY}[ 2 ]${N}  Install Blueprint 2 (Fresh Rebuild)"
   echo -e "  ${BM}[ 3 ]${N}  Auto Fix / Repair"
   echo -e "  ${BM}[ 4 ]${N}  hyperv1"
@@ -104,56 +105,176 @@ while true; do
   case $opt in
 case $1 in
     1)
-        echo "BASH 1"
+        echo "Option 1"
+        echo "1) Install"
+        echo "2) Uninstall"
+        read choice
+        case $choice in
+            1) echo "Installing Option 1..." ;;
+            2) echo "Uninstalling Option 1..." ;;
+        esac
         ;;
     2)
         echo "Option 2"
+        echo "1) Install"
+        echo "2) Uninstall"
+        read choice
+        case $choice in
+            1) echo "Installing Option 2..." ;;
+            2) echo "Uninstalling Option 2..." ;;
+        esac
         ;;
     3)
         echo "Option 3"
+        echo "1) Install"
+        echo "2) Uninstall"
+        read choice
+        case $choice in
+            1) echo "Installing Option 3..." ;;
+            2) echo "Uninstalling Option 3..." ;;
+        esac
         ;;
     4)
         echo "Option 4"
+        echo "1) Install"
+        echo "2) Uninstall"
+        read choice
+        case $choice in
+            1) echo "Installing Option 4..." ;;
+            2) echo "Uninstalling Option 4..." ;;
+        esac
         ;;
     5)
         echo "Option 5"
+        echo "1) Install"
+        echo "2) Uninstall"
+        read choice
+        case $choice in
+            1) echo "Installing Option 5..." ;;
+            2) echo "Uninstalling Option 5..." ;;
+        esac
         ;;
     6)
         echo "Option 6"
+        echo "1) Install"
+        echo "2) Uninstall"
+        read choice
+        case $choice in
+            1) echo "Installing Option 6..." ;;
+            2) echo "Uninstalling Option 6..." ;;
+        esac
         ;;
     7)
         echo "Option 7"
+        echo "1) Install"
+        echo "2) Uninstall"
+        read choice
+        case $choice in
+            1) echo "Installing Option 7..." ;;
+            2) echo "Uninstalling Option 7..." ;;
+        esac
         ;;
     8)
         echo "Option 8"
+        echo "1) Install"
+        echo "2) Uninstall"
+        read choice
+        case $choice in
+            1) echo "Installing Option 8..." ;;
+            2) echo "Uninstalling Option 8..." ;;
+        esac
         ;;
     9)
         echo "Option 9"
+        echo "1) Install"
+        echo "2) Uninstall"
+        read choice
+        case $choice in
+            1) echo "Installing Option 9..." ;;
+            2) echo "Uninstalling Option 9..." ;;
+        esac
         ;;
     10)
         echo "Option 10"
+        echo "1) Install"
+        echo "2) Uninstall"
+        read choice
+        case $choice in
+            1) echo "Installing Option 10..." ;;
+            2) echo "Uninstalling Option 10..." ;;
+        esac
         ;;
     11)
         echo "Option 11"
+        echo "1) Install"
+        echo "2) Uninstall"
+        read choice
+        case $choice in
+            1) echo "Installing Option 11..." ;;
+            2) echo "Uninstalling Option 11..." ;;
+        esac
         ;;
     12)
         echo "Option 12"
+        echo "1) Install"
+        echo "2) Uninstall"
+        read choice
+        case $choice in
+            1) echo "Installing Option 12..." ;;
+            2) echo "Uninstalling Option 12..." ;;
+        esac
         ;;
     13)
         echo "Option 13"
+        echo "1) Install"
+        echo "2) Uninstall"
+        read choice
+        case $choice in
+            1) echo "Installing Option 13..." ;;
+            2) echo "Uninstalling Option 13..." ;;
+        esac
         ;;
     14)
         echo "Option 14"
+        echo "1) Install"
+        echo "2) Uninstall"
+        read choice
+        case $choice in
+            1) echo "Installing Option 14..." ;;
+            2) echo "Uninstalling Option 14..." ;;
+        esac
         ;;
     15)
         echo "Option 15"
+        echo "1) Install"
+        echo "2) Uninstall"
+        read choice
+        case $choice in
+            1) echo "Installing Option 15..." ;;
+            2) echo "Uninstalling Option 15..." ;;
+        esac
         ;;
     16)
         echo "Option 16"
+        echo "1) Install"
+        echo "2) Uninstall"
+        read choice
+        case $choice in
+            1) echo "Installing Option 16..." ;;
+            2) echo "Uninstalling Option 16..." ;;
+        esac
         ;;
     17)
         echo "Option 17"
+        echo "1) Install"
+        echo "2) Uninstall"
+        read choice
+        case $choice in
+            1) echo "Installing Option 17..." ;;
+            2) echo "Uninstalling Option 17..." ;;
+        esac
         ;;
+esac
 esac
     0) 
        echo -e "\n${M} 👋 Exiting... Panel shant ho gaya.${N}"
