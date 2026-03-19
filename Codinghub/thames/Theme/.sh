@@ -62,12 +62,7 @@ pause() {
 # ==========================================
 # 📋 ACTIONS
 # ==========================================
-CD='cd /var/www/pterodactyl'
-RE='yes | blueprint -r '
-IN='yes | blueprint -i '
-D='wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/'
-RF='rm -f ' 
-# NAME="" $CD && $D$NAME && $IN$NAME && $RF$NAME
+
 # ==========================================
 # 🖥️ MAIN MENU
 # ==========================================
@@ -116,9 +111,21 @@ while true; do
         echo -e "\n${C} ──────────────────────────────────────────────────────────${N}"
         read choice
         case $choice in
-            1) echo "Installing Nebula..." NAME="nebula.blueprint" $CD && $D$NAME && $IN$NAME && $RF$NAME ;;
-            2) echo "Uninstalling Nebula..." NAME="nebula.blueprint" $CD && $RE$RE ;;
-            0) echo "Exiting... Nebula..." continue ;;
+            1)
+                NAME=""
+                echo -e "\n${G}Installing $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
+                yes | blueprint -i "$NAME"
+                rm -f "$NAME"
+                ;;
+            2)
+                NAME=""
+                echo -e "\n${R}Uninstalling $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                yes | blueprint -r "$NAME"
+                ;;
+            0) echo "Exiting..." continue ;;
             *) echo -e "${R}Invalid action${N}" ;;
         esac
         ;;
@@ -134,8 +141,20 @@ while true; do
         echo -e "\n${C} ──────────────────────────────────────────────────────────${N}"
         read choice
         case $choice in
-            1) echo "Installing Option 1..." ;;
-            2) echo "Uninstalling Option 1..." ;;
+            1)
+                NAME=""
+                echo -e "\n${G}Installing $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
+                yes | blueprint -i "$NAME"
+                rm -f "$NAME"
+                ;;
+            2)
+                NAME=""
+                echo -e "\n${R}Uninstalling $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                yes | blueprint -r "$NAME"
+                ;;
             0) echo "Exiting... Option 1..." continue ;;
             *) echo -e "${R}Invalid action${N}" ;;
         esac
@@ -152,8 +171,20 @@ while true; do
         echo -e "\n${C} ──────────────────────────────────────────────────────────${N}"
         read choice
         case $choice in
-            1) echo "Installing Option 1..." ;;
-            2) echo "Uninstalling Option 1..." ;;
+            1)
+                NAME=""
+                echo -e "\n${G}Installing $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
+                yes | blueprint -i "$NAME"
+                rm -f "$NAME"
+                ;;
+            2)
+                NAME=""
+                echo -e "\n${R}Uninstalling $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                yes | blueprint -r "$NAME"
+                ;;
             0) echo "Exiting... Option 1..." continue ;;
             *) echo -e "${R}Invalid action${N}" ;;
         esac
@@ -170,8 +201,20 @@ while true; do
         echo -e "\n${C} ──────────────────────────────────────────────────────────${N}"
         read choice
         case $choice in
-            1) echo "Installing Option 1..." ;;
-            2) echo "Uninstalling Option 1..." ;;
+            1)
+                NAME=""
+                echo -e "\n${G}Installing $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
+                yes | blueprint -i "$NAME"
+                rm -f "$NAME"
+                ;;
+            2)
+                NAME=""
+                echo -e "\n${R}Uninstalling $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                yes | blueprint -r "$NAME"
+                ;;
             0) echo "Exiting... Option 1..." continue ;;
             *) echo -e "${R}Invalid action${N}" ;;
         esac
@@ -188,8 +231,20 @@ while true; do
         echo -e "\n${C} ──────────────────────────────────────────────────────────${N}"
         read choice
         case $choice in
-            1) echo "Installing Option 1..." ;;
-            2) echo "Uninstalling Option 1..." ;;
+            1)
+                NAME=""
+                echo -e "\n${G}Installing $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
+                yes | blueprint -i "$NAME"
+                rm -f "$NAME"
+                ;;
+            2)
+                NAME=""
+                echo -e "\n${R}Uninstalling $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                yes | blueprint -r "$NAME"
+                ;;
             0) echo "Exiting... Option 1..." continue ;;
             *) echo -e "${R}Invalid action${N}" ;;
         esac
@@ -206,8 +261,20 @@ while true; do
         echo -e "\n${C} ──────────────────────────────────────────────────────────${N}"
         read choice
         case $choice in
-            1) echo "Installing Option 1..." ;;
-            2) echo "Uninstalling Option 1..." ;;
+            1)
+                NAME=""
+                echo -e "\n${G}Installing $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
+                yes | blueprint -i "$NAME"
+                rm -f "$NAME"
+                ;;
+            2)
+                NAME=""
+                echo -e "\n${R}Uninstalling $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                yes | blueprint -r "$NAME"
+                ;;
             0) echo "Exiting... Option 1..." continue ;;
             *) echo -e "${R}Invalid action${N}" ;;
         esac
@@ -224,8 +291,20 @@ while true; do
         echo -e "\n${C} ──────────────────────────────────────────────────────────${N}"
         read choice
         case $choice in
-            1) echo "Installing Option 1..." ;;
-            2) echo "Uninstalling Option 1..." ;;
+            1)
+                NAME=""
+                echo -e "\n${G}Installing $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
+                yes | blueprint -i "$NAME"
+                rm -f "$NAME"
+                ;;
+            2)
+                NAME=""
+                echo -e "\n${R}Uninstalling $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                yes | blueprint -r "$NAME"
+                ;;
             0) echo "Exiting... Option 1..." continue ;;
             *) echo -e "${R}Invalid action${N}" ;;
         esac
@@ -242,8 +321,20 @@ while true; do
         echo -e "\n${C} ──────────────────────────────────────────────────────────${N}"
         read choice
         case $choice in
-            1) echo "Installing Option 1..." ;;
-            2) echo "Uninstalling Option 1..." ;;
+            1)
+                NAME=""
+                echo -e "\n${G}Installing $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
+                yes | blueprint -i "$NAME"
+                rm -f "$NAME"
+                ;;
+            2)
+                NAME=""
+                echo -e "\n${R}Uninstalling $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                yes | blueprint -r "$NAME"
+                ;;
             0) echo "Exiting... Option 1..." continue ;;
             *) echo -e "${R}Invalid action${N}" ;;
         esac
@@ -260,8 +351,20 @@ while true; do
         echo -e "\n${C} ──────────────────────────────────────────────────────────${N}"
         read choice
         case $choice in
-            1) echo "Installing Option 1..." ;;
-            2) echo "Uninstalling Option 1..." ;;
+            1)
+                NAME=""
+                echo -e "\n${G}Installing $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
+                yes | blueprint -i "$NAME"
+                rm -f "$NAME"
+                ;;
+            2)
+                NAME=""
+                echo -e "\n${R}Uninstalling $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                yes | blueprint -r "$NAME"
+                ;;
             0) echo "Exiting... Option 1..." continue ;;
             *) echo -e "${R}Invalid action${N}" ;;
         esac
@@ -278,8 +381,20 @@ while true; do
         echo -e "\n${C} ──────────────────────────────────────────────────────────${N}"
         read choice
         case $choice in
-            1) echo "Installing Option 1..." ;;
-            2) echo "Uninstalling Option 1..." ;;
+            1)
+                NAME=""
+                echo -e "\n${G}Installing $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
+                yes | blueprint -i "$NAME"
+                rm -f "$NAME"
+                ;;
+            2)
+                NAME=""
+                echo -e "\n${R}Uninstalling $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                yes | blueprint -r "$NAME"
+                ;;
             0) echo "Exiting... Option 1..." continue ;;
             *) echo -e "${R}Invalid action${N}" ;;
         esac
@@ -296,8 +411,20 @@ while true; do
         echo -e "\n${C} ──────────────────────────────────────────────────────────${N}"
         read choice
         case $choice in
-            1) echo "Installing Option 1..." ;;
-            2) echo "Uninstalling Option 1..." ;;
+            1)
+                NAME=""
+                echo -e "\n${G}Installing $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
+                yes | blueprint -i "$NAME"
+                rm -f "$NAME"
+                ;;
+            2)
+                NAME=""
+                echo -e "\n${R}Uninstalling $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                yes | blueprint -r "$NAME"
+                ;;
             0) echo "Exiting... Option 1..." continue ;;
             *) echo -e "${R}Invalid action${N}" ;;
         esac
@@ -314,8 +441,20 @@ while true; do
         echo -e "\n${C} ──────────────────────────────────────────────────────────${N}"
         read choice
         case $choice in
-            1) echo "Installing Option 1..." ;;
-            2) echo "Uninstalling Option 1..." ;;
+            1)
+                NAME=""
+                echo -e "\n${G}Installing $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
+                yes | blueprint -i "$NAME"
+                rm -f "$NAME"
+                ;;
+            2)
+                NAME=""
+                echo -e "\n${R}Uninstalling $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                yes | blueprint -r "$NAME"
+                ;;
             0) echo "Exiting... Option 1..." continue ;;
             *) echo -e "${R}Invalid action${N}" ;;
         esac
@@ -332,8 +471,20 @@ while true; do
         echo -e "\n${C} ──────────────────────────────────────────────────────────${N}"
         read choice
         case $choice in
-            1) echo "Installing Option 1..." ;;
-            2) echo "Uninstalling Option 1..." ;;
+            1)
+                NAME=""
+                echo -e "\n${G}Installing $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
+                yes | blueprint -i "$NAME"
+                rm -f "$NAME"
+                ;;
+            2)
+                NAME=""
+                echo -e "\n${R}Uninstalling $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                yes | blueprint -r "$NAME"
+                ;;
             0) echo "Exiting... Option 1..." continue ;;
             *) echo -e "${R}Invalid action${N}" ;;
         esac
@@ -350,8 +501,20 @@ while true; do
         echo -e "\n${C} ──────────────────────────────────────────────────────────${N}"
         read choice
         case $choice in
-            1) echo "Installing Option 1..." ;;
-            2) echo "Uninstalling Option 1..." ;;
+            1)
+                NAME=""
+                echo -e "\n${G}Installing $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
+                yes | blueprint -i "$NAME"
+                rm -f "$NAME"
+                ;;
+            2)
+                NAME=""
+                echo -e "\n${R}Uninstalling $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                yes | blueprint -r "$NAME"
+                ;;
             0) echo "Exiting... Option 1..." continue ;;
             *) echo -e "${R}Invalid action${N}" ;;
         esac
@@ -368,8 +531,20 @@ while true; do
         echo -e "\n${C} ──────────────────────────────────────────────────────────${N}"
         read choice
         case $choice in
-            1) echo "Installing Option 1..." ;;
-            2) echo "Uninstalling Option 1..." ;;
+            1)
+                NAME=""
+                echo -e "\n${G}Installing $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
+                yes | blueprint -i "$NAME"
+                rm -f "$NAME"
+                ;;
+            2)
+                NAME=""
+                echo -e "\n${R}Uninstalling $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                yes | blueprint -r "$NAME"
+                ;;
             0) echo "Exiting... Option 1..." continue ;;
             *) echo -e "${R}Invalid action${N}" ;;
         esac
@@ -386,8 +561,20 @@ while true; do
         echo -e "\n${C} ──────────────────────────────────────────────────────────${N}"
         read choice
         case $choice in
-            1) echo "Installing Option 1..." ;;
-            2) echo "Uninstalling Option 1..." ;;
+            1)
+                NAME=""
+                echo -e "\n${G}Installing $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
+                yes | blueprint -i "$NAME"
+                rm -f "$NAME"
+                ;;
+            2)
+                NAME=""
+                echo -e "\n${R}Uninstalling $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                yes | blueprint -r "$NAME"
+                ;;
             0) echo "Exiting... Option 1..." continue ;;
             *) echo -e "${R}Invalid action${N}" ;;
         esac
@@ -404,8 +591,20 @@ while true; do
         echo -e "\n${C} ──────────────────────────────────────────────────────────${N}"
         read choice
         case $choice in
-            1) echo "Installing Option 1..." ;;
-            2) echo "Uninstalling Option 1..." ;;
+            1)
+                NAME=""
+                echo -e "\n${G}Installing $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                wget -q https://github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/$NAME
+                yes | blueprint -i "$NAME"
+                rm -f "$NAME"
+                ;;
+            2)
+                NAME=""
+                echo -e "\n${R}Uninstalling $NAME...${N}"
+                cd /var/www/pterodactyl || exit
+                yes | blueprint -r "$NAME"
+                ;;
             0) echo "Exiting... Option 1..." continue ;;
             *) echo -e "${R}Invalid action${N}" ;;
         esac
