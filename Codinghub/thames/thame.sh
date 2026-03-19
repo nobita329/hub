@@ -62,9 +62,9 @@ pause() {
 # ==========================================
 # 📋 ACTIONS
 # ==========================================
-CD=cd /var/www/pterodactyl
-RE=yes | blueprint -r
-IN=yes | blueprint -i
+CD='cd /var/www/pterodactyl'
+RE='yes | blueprint -r'
+IN='yes | blueprint -i'
 
 # ==========================================
 # 🖥️ MAIN MENU
@@ -101,11 +101,10 @@ show_menu() {
 while true; do
   show_menu
   read -p " 👉 Enter your choice: " opt
-
   case $opt in
-case $1 in
     1)
         echo "Option 1"
+        clear
         echo "1) Install"
         echo "2) Uninstall"
         read choice
@@ -266,6 +265,7 @@ case $1 in
         ;;
     17)
         echo "Option 17"
+        clear
         echo "1) Install"
         echo "2) Uninstall"
         read choice
@@ -274,8 +274,8 @@ case $1 in
             2) echo "Uninstalling Option 17..." ;;
         esac
         ;;
-esac
-esac
+
+
     0) 
        echo -e "\n${M} 👋 Exiting... Panel shant ho gaya.${N}"
        sleep 0.5
