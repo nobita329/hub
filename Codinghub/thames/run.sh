@@ -132,7 +132,7 @@ while true; do
             draw_box
             echo ""
             echo -e "${CYAN}Launching Theme...${RESET}"
-            bash <(curl -s github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Theme/th.sh)
+            bash <(curl -s https://raw.githubusercontent.com/nobita329/hub/refs/heads/main/Codinghub/thames/run.sh)
             pause
             ;;
 
@@ -141,7 +141,7 @@ while true; do
             draw_box
             echo ""
             echo -e "${CYAN}Launching Extensions...${RESET}"
-            bash <(curl -s github.com/nobita329/hub/raw/refs/heads/main/Codinghub/thames/Extensions/ext.sh)
+            bash <(curl -s https://raw.githubusercontent.com/nobita329/hub/refs/heads/main/Codinghub/thames/Extensions/ext.sh)
             pause
             ;;
 
