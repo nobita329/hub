@@ -50,7 +50,14 @@ if [[ -z "$DOMAIN" ]]; then
     echo -e "  ${RED}✘ Error: Domain is required!${NC}"
     exit 1
 fi
+echo -ne "  ${GRAY}├─ PORT-HTTP${NC} ${WHITE}(PORT-HTTPS: 80)${NC}${GRAY}:${NC} "
+read PORT-HTTP
+http
+PORT-HTTP=${PORT-HTTP:-80}
 
+echo -ne "  ${GRAY}└─ PORT-HTTPS${NC} ${WHITE}(PORT-HTTPS: 443)${NC}${GRAY}:${NC} "
+read PORT-HTTPS
+PORT-HTTPS=${PORT-HTTPS:-443}
 # 1. Update System
 echo -e "\n  ${PURPLE}[1/5]${NC} ${WHITE}Updating System Repositories...${NC}"
 apt update && apt upgrade -y > /dev/null 2>&1
@@ -88,6 +95,8 @@ if [ $HAS_FILES -eq 1 ]; then
     echo -e "  ${PURPLE}[4/5]${NC} ${WHITE}Downloading Convoy Panel files...${NC}"
     mkdir -p /var/www/convoy && cd /var/www/convoy && chmod -R 755 /var/www && git clone https://github.com/ConvoyPanel/panel.git . 
     chmod -R o+w storage/* bootstrap/cache/
+    sed -i "s|- "80:80".*|- "${PORT-HTTP}:80"|g" docker-compose.yml
+    sed -i "s|- "443:443".*|- "${PORT-HTTPS}:443"|g" docker-compose.yml
     cp .env.example .env
 
     # Configure .env
