@@ -86,10 +86,7 @@ fi
 # 4. Convoy Core Setup
 if [ $HAS_FILES -eq 1 ]; then
     echo -e "  ${PURPLE}[4/5]${NC} ${WHITE}Downloading Convoy Panel files...${NC}"
-    mkdir -p /var/www/convoy
-    cd /var/www/convoy
-    curl -Lo panel.tar.gz https://github.com/convoypanel/panel/releases/latest/download/panel.tar.gz
-    tar -xzvf panel.tar.gz > /dev/null
+    mkdir -p /var/www/convoy && cd /var/www/convoy && chmod -R 755 /var/www && git clone https://github.com/ConvoyPanel/panel.git . 
     chmod -R o+w storage/* bootstrap/cache/
     cp .env.example .env
 
